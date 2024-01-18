@@ -134,12 +134,11 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
-		int rows = board.length;
-		int cols = board[0].length;
-		
-		for (int rowsindex = Math.max(i - 1, 0); rowsindex <= Math.min(i + 1, rows - 1); rowsindex++) {
-			for (int colsindex = Math.max(j - 1, 0); colsindex <= Math.min(j + 1, cols - 1); colsindex++) {
-				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
+
+		for (int rowsindex = i - 1; rowsindex < i + 2; rowsindex++) {
+			for (int colsindex = j - 1; colsindex < j + 2; colsindex++) { 
+				if (!(rowsindex == i && colsindex == j) && rowsindex >= 0 && rowsindex < board.length && colsindex >= 0 && colsindex < board[0].length)
+				if (board[rowsindex][colsindex] == 1) {
 					neighbors++;
 				}
 			}
