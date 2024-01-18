@@ -138,7 +138,7 @@ public class GameOfLife {
 		int cols = board[0].length;
 
 		for (int rowsindex = Math.max(i - 1, 0); rowsindex < Math.min(i + 2, rows - 1); rowsindex++) { // Added math & min functions to help out with the array's borders and prevent overflow
-			for (int colsindex = Math.max(j - 1, 0); colsindex < Math.min(j+2, cols); colsindex++) { 
+			for (int colsindex = Math.max(j - 1, 0); colsindex < Math.min(j + 2, cols - 1); colsindex++) { 
 				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
 					neighbors++;
 				}
