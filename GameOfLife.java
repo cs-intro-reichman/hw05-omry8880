@@ -134,8 +134,8 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
-		for (int rowsindex = i - 1; rowsindex < i + 2; rowsindex++) {
-			for (int colsindex = j - 1; colsindex < j + 2; colsindex++) { 
+		for (int rowsindex = i - 1; rowsindex <= i + 1; rowsindex++) {
+			for (int colsindex = j - 1; colsindex <= j + 1; colsindex++) { 
 				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
 					neighbors++;
 				}
@@ -146,8 +146,8 @@ public class GameOfLife {
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
     public static void print(int[][] arr) {
-		for (int i = 0; i < arr.length - 1; i++) {
-			for (int j = 0; j < arr[i].length - 1; j++) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
 				System.out.printf("%3s", arr[i][j]);
 			}
 			System.out.println();
