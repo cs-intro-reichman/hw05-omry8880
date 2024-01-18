@@ -109,20 +109,22 @@ public class GameOfLife {
 		int neighbors = count(board, i, j);
 		int value = 0;
 
-		switch (board[i][j]) {
-			case 1:
-				if (neighbors == 2 || neighbors == 3) {
-					value = 1;
-				}
-				break;
-
-			case 0:
-				if (neighbors == 3) {
-					value = 1;
-				}
-
-			default:
-				break;
+		if (i >= 1 && i < board.length - 1 && j >= 1 && j < board[0].length - 1) {
+			switch (board[i][j]) {
+				case 1:
+					if (neighbors == 2 || neighbors == 3) {
+						value = 1;
+					}
+					break;
+	
+				case 0:
+					if (neighbors == 3) {
+						value = 1;
+					}
+	
+				default:
+					break;
+			}
 		}
 
 		return value;
@@ -134,11 +136,8 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
-		int rows = board.length;
-		int cols = board[0].length;
-
-		for (int rowsindex = Math.max(i - 1, 0); rowsindex < Math.min(i + 2, rows - 1); rowsindex++) { // Added math & min functions to help out with the array's borders and prevent overflow
-			for (int colsindex = Math.max(j - 1, 0); colsindex < Math.min(j + 2, cols - 1); colsindex++) { 
+		for (int rowsindex = i - 1; rowsindex < i + 2; rowsindex++) {
+			for (int colsindex = j - 1; colsindex < j + 2; colsindex++) { 
 				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
 					neighbors++;
 				}
