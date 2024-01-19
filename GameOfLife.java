@@ -88,8 +88,8 @@ public class GameOfLife {
 	public static int[][] evolve(int[][] board) {
 		int[][] evolved = new int[board.length][board[0].length];
 
-		for (int i = 1; i < board.length - 1; i++) {
-			for (int j = 1; j < board[i].length - 1; j++) {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
 				evolved[i][j] = cellValue(board, i, j);
 			}
 		}
@@ -120,6 +120,7 @@ public class GameOfLife {
 				if (neighbors == 3) {
 					value = 1;
 				}
+				break;
 
 			default:
 				break;
@@ -135,13 +136,14 @@ public class GameOfLife {
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
 
-		for (int rowsindex = i - 1; rowsindex < i + 2; rowsindex++) {
-			for (int colsindex = j - 1; colsindex < j + 2; colsindex++) { 
-				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
+		for (int rowsIndex = Math.max(0, i - 1); rowsIndex <= Math.min(board.length - 1, i + 1); rowsIndex++) {
+			for (int colsIndex = Math.max(0, j - 1); colsIndex <= Math.min(board[0].length - 1, j + 1); colsIndex++) {
+				if (!(rowsIndex == i && colsIndex == j) && board[rowsIndex][colsIndex] == 1) {
 					neighbors++;
 				}
 			}
 		}
+
 		return neighbors;
 	}
 	
@@ -185,6 +187,6 @@ public class GameOfLife {
 			}
 		}
 		StdDraw.show();
-		StdDraw.pause(1000); 
+		StdDraw.pause(100); 
 	}
 }
