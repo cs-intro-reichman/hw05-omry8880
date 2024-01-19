@@ -88,8 +88,8 @@ public class GameOfLife {
 	public static int[][] evolve(int[][] board) {
 		int[][] evolved = new int[board.length][board[0].length];
 
-		for (int i = 1; i < evolved.length - 1; i++) {
-			for (int j = 1; j < evolved[i].length - 1; j++) {
+		for (int i = 1; i < board.length - 1; i++) {
+			for (int j = 1; j < board[i].length - 1; j++) {
 				evolved[i][j] = cellValue(board, i, j);
 			}
 		}
@@ -134,17 +134,14 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
-		int rows = board.length;
-		int cols = board[0].length;
-	
-		for (int rowsindex = Math.max(0, i - 1); rowsindex < Math.min(rows, i + 2); rowsindex++) {
-			for (int colsindex = Math.max(0, j - 1); colsindex < Math.min(cols, j + 2); colsindex++) {
+
+		for (int rowsindex = i - 1; rowsindex < i + 2; rowsindex++) {
+			for (int colsindex = j - 1; colsindex < j + 2; colsindex++) { 
 				if (!(rowsindex == i && colsindex == j) && board[rowsindex][colsindex] == 1) {
 					neighbors++;
 				}
 			}
 		}
-
 		return neighbors;
 	}
 	
