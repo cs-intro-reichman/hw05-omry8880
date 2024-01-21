@@ -63,21 +63,31 @@ public class GameOfLife {
 		In in = new In(fileName); // Constructs an In object for reading the input file
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
-		int[][] board = new int[rows][cols];
-		// System.out.println(rows + "," + cols);
-
-		String rowData = "";
-
-		for (int boardRows = 0; boardRows < rows; boardRows++) {
-			rowData = in.readLine();
-			for (int boardCols = 0; boardCols < cols; boardCols++) {
-				if (!rowData.isEmpty() && rowData.length() > boardCols && rowData.charAt(boardCols) == 'x') {
-					board[boardRows][boardCols] = 1; 
-				} else {
-					board[boardRows][boardCols] = 0;
+		int[][] board = new int[rows + 2][cols + 2];
+		String currentRow = "";
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (i == 0 || i == board[0].length - 1 || j == 0 || j == board[1].length - 1 || currentRow == null) {
+					board[i][j] = 0;
+				}
+				else {
+					if (currentRow.length() > j) {
+						switch(currentRow.charAt(j)) {
+							case('.'):
+								board[i][j + 1] = 0;
+								break;
+							
+							case('x'):
+								board[i][j + 1] = 1;
+								break;
+						}
+					}
+					else {
+						board[i][j+1] = 0;
+					}
 				}
 			}
-
+			currentRow = in.readLine();
 		}
 		return board;
 	}
@@ -109,6 +119,9 @@ public class GameOfLife {
 		int neighbors = count(board, i, j);
 		int value = 0;
 
+		// System.out.println("Neighbours: " + neighbors);
+		// System.out.println("Current value: " + board[i][j]);
+
 		switch (board[i][j]) {
 			case 1:
 				if (neighbors == 2 || neighbors == 3) {
@@ -125,6 +138,8 @@ public class GameOfLife {
 			default:
 				break;
 		}
+
+		System.out.println("Next gen value: " + value);
 
 		return value;
 	}
