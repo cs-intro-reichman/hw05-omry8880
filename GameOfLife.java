@@ -65,6 +65,7 @@ public class GameOfLife {
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
 
+
 		String currentRow = "";
 		for (int i = 0; i < board.length; i++)
 		{
@@ -89,7 +90,6 @@ public class GameOfLife {
 								break;
 							
 							case('x'):
-							case('X'):
 								board[i][j + 1] = 1;
 								break;
 						}
@@ -112,21 +112,9 @@ public class GameOfLife {
 	public static int[][] evolve(int[][] board) {
 		int[][] evolved = new int[board.length][board[0].length];
 
-		for (int i = 0; i < evolved.length; i++)
-		{
-			for (int j = 0; j < evolved[0].length; j++)
-			{
-				if (i == 0 
-					|| i == board.length - 1 
-					|| j == 0
-					|| j == board[1].length - 1)
-				{
-					board[i][j] = 0;
-				}
-				else
-				{
-					evolved[i][j] = cellValue(board, i, j);
-				}
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				evolved[i][j] = cellValue(board, i, j);
 			}
 		}
 		return evolved;
@@ -145,8 +133,8 @@ public class GameOfLife {
 		int neighbors = count(board, i, j);
 		int value = 0;
 
-		// System.out.println("Neighbours: " + neighbors);
-		// System.out.println("Current value: " + board[i][j]);
+		// System.out.println("Neighbours: " + neighbors); debugging
+		// System.out.println("Current value: " + board[i][j]); debugging
 
 		switch (board[i][j]) {
 			case 1:
@@ -165,7 +153,7 @@ public class GameOfLife {
 				break;
 		}
 
-		// System.out.println("Next gen value: " + value);
+		// System.out.println("Next gen value: " + value); debugging
 
 		return value;
 	}
@@ -177,21 +165,23 @@ public class GameOfLife {
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
 
-		for (int rowsIndex = Math.max(0, i - 1); rowsIndex <= Math.min(board.length - 1, i + 1); rowsIndex++) {
-			for (int colsIndex = Math.max(0, j - 1); colsIndex <= Math.min(board[0].length - 1, j + 1); colsIndex++) {
-				if (!(rowsIndex == i && colsIndex == j) && board[rowsIndex][colsIndex] == 1) {
-					neighbors++;
-				}
+		for (int row = i - 1; row <= i + 1; row++)
+		{
+			for (int col = j - 1; col <= j + 1; col++)
+			{
+				neighbors += board[row][col];
 			}
 		}
+
+		neighbors -= board[i][j];
 
 		return neighbors;
 	}
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
     public static void print(int[][] arr) {
-		for (int i = 0; i < arr.length - 1; i++) {
-			for (int j = 0; j < arr[i].length - 1; j++) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
 				System.out.printf("%3s", arr[i][j]);
 			}
 			System.out.println();
