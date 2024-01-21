@@ -65,8 +65,6 @@ public class GameOfLife {
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
 
-		String rowData = "";
-
 		String currentRow = "";
 		for (int i = 0; i < board.length; i++)
 		{
@@ -114,9 +112,21 @@ public class GameOfLife {
 	public static int[][] evolve(int[][] board) {
 		int[][] evolved = new int[board.length][board[0].length];
 
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				evolved[i][j] = cellValue(board, i, j);
+		for (int i = 0; i < evolved.length; i++)
+		{
+			for (int j = 0; j < evolved[0].length; j++)
+			{
+				if (i == 0 
+					|| i == board.length - 1 
+					|| j == 0
+					|| j == board[1].length - 1)
+				{
+					board[i][j] = 0;
+				}
+				else
+				{
+					evolved[i][j] = cellValue(board, i, j);
+				}
 			}
 		}
 		return evolved;
