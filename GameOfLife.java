@@ -14,7 +14,7 @@ public class GameOfLife {
 		// test1(fileName);
 		// test2(fileName);
 		// test3(fileName, 3);
-		play(fileName);
+		// play(fileName);
 	}
 
 	// Reads the data file and prints the initial board.
@@ -137,31 +137,28 @@ public class GameOfLife {
 	// Uses the count(board,i,j) function to count the number of alive neighbors.
 	public static int cellValue(int[][] board, int i, int j) {
 		int neighbors = count(board, i, j);
-		int value = 0;
 
 		// System.out.println("Neighbours: " + neighbors); debugging
 		// System.out.println("Current value: " + board[i][j]); debugging
 
-		switch (board[i][j]) {
-			case 1:
-				if (neighbors == 2 || neighbors == 3) {
-					value = 1;
-				}
-				break;
+		// if cell is alive
+		if (board[i][j] == 1) 
+		{
+			if (neighbors < 2 || neighbors > 3)
+			{
+				return 0;
+			}
 
-			case 0:
-				if (neighbors == 3) {
-					value = 1;
-				}
-				break;
+			return 1;
+		}
 
-			default:
-				break;
+		if (neighbors == 3)
+		{
+			return 1;
 		}
 
 		// System.out.println("Next gen value: " + value); debugging
-
-		return value;
+		return board[i][j];
 	}
 
 	// Counts and returns the number of living neighbors of the given cell
