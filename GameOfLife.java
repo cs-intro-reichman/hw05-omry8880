@@ -1,8 +1,8 @@
-/** 
- *  Game of Life.
- *  Usage: "java GameOfLife fileName"
- *  The file represents the initial board.
- *  The file format is described in the homework document.
+/**
+ * Game of Life.
+ * Usage: "java GameOfLife fileName"
+ * The file represents the initial board.
+ * The file format is described in the homework document.
  */
 
 public class GameOfLife {
@@ -16,14 +16,14 @@ public class GameOfLife {
 		// test3(fileName, 3);
 		play(fileName);
 	}
-	
+
 	// Reads the data file and prints the initial board.
 	public static void test1(String fileName) {
 		int[][] board = read(fileName);
 		print(board);
 	}
-		
-	// Reads the data file, and runs a test that checks 
+
+	// Reads the data file, and runs a test that checks
 	// the count and cellValue functions.
 	public static void test2(String fileName) {
 		int[][] board = read(fileName);
@@ -31,8 +31,8 @@ public class GameOfLife {
 		System.out.println(count(board, 2, 2));
 		System.out.println(cellValue(board, 2, 2));
 	}
-		
-	// Reads the data file, plays the game for Ngen generations, 
+
+	// Reads the data file, plays the game for Ngen generations,
 	// and prints the board at the beginning of each generation.
 	public static void test3(String fileName, int Ngen) {
 		int[][] board = read(fileName);
@@ -42,7 +42,7 @@ public class GameOfLife {
 			board = evolve(board);
 		}
 	}
-		
+
 	// Reads the data file and plays the game, for ever.
 	public static void play(String fileName) {
 		int[][] board = read(fileName);
@@ -51,83 +51,89 @@ public class GameOfLife {
 			board = evolve(board);
 		}
 	}
-	
-	// Reads the initial board configuration from the file whose name is fileName, uses the data
-	// to construct and populate a 2D array that represents the game board, and returns this array.
-	// Live and dead cells are represented by 1 and 0, respectively. The constructed board has 2 extra
-	// rows and 2 extra columns, containing zeros. These are the top and the bottom row, and the leftmost
-	// and the rightmost columns. Thus the actual board is surrounded by a "frame" of zeros. You can think
-	// of this frame as representing the infinite number of dead cells that exist in every direction.
-	// This function assumes that the input file contains valid data, and does no input testing.
+
+	// Reads the initial board configuration from the file whose name is fileName,
+	// uses the data
+	// to construct and populate a 2D array that represents the game board, and
+	// returns this array.
+	// Live and dead cells are represented by 1 and 0, respectively. The constructed
+	// board has 2 extra
+	// rows and 2 extra columns, containing zeros. These are the top and the bottom
+	// row, and the leftmost
+	// and the rightmost columns. Thus the actual board is surrounded by a "frame"
+	// of zeros. You can think
+	// of this frame as representing the infinite number of dead cells that exist in
+	// every direction.
+	// This function assumes that the input file contains valid data, and does no
+	// input testing.
 	static int[][] read(String fileName) {
 		In in = new In(fileName); // Constructs an In object for reading the input file
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
 
-
 		String currentRow = "";
-		for (int i = 0; i < board.length; i++)
-		{
-			for (int j = 0; j < board[0].length; j++)
-			{
-				if (i == 0 
-					|| i == board[0].length - 1 
-					|| j == 0
-					|| j == board[1].length - 1
-					|| currentRow == null)
-				{
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (i == 0
+						|| i == board[0].length - 1
+						|| j == 0
+						|| j == board[1].length - 1
+						|| currentRow == null) {
 					board[i][j] = 0;
-				}
-				else
-				{
-					if (currentRow.length() > j)
-					{
-						switch(currentRow.charAt(j))
-						{
-							case('.'):
+				} else {
+					if (currentRow.length() > j) {
+						switch (currentRow.charAt(j)) {
+							case ('.'):
 								board[i][j + 1] = 0;
 								break;
-							
-							case('x'):
+
+							case ('x'):
 								board[i][j + 1] = 1;
 								break;
 						}
-					}
-					else 
-					{
-						board[i][j+1] = 0;
+					} else {
+						board[i][j + 1] = 0;
 					}
 				}
-				
+
 			}
 			currentRow = in.readLine();
 		}
 		return board;
 	}
-	
+
 	// Creates a new board from the given board, using the rules of the game.
-	// Uses the cellValue(board,i,j) function to compute the value of each 
+	// Uses the cellValue(board,i,j) function to compute the value of each
 	// cell in the new board. Returns the new board.
 	public static int[][] evolve(int[][] board) {
 		int[][] evolved = new int[board.length][board[0].length];
 
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				evolved[i][j] = cellValue(board, i, j);
+		for (int i = 0; i < evolved.length; i++) {
+			for (int j = 0; j < evolved[0].length; j++) {
+				if (i == 0
+						|| i == board.length - 1
+						|| j == 0
+						|| j == board[1].length - 1) {
+					board[i][j] = 0;
+				} else {
+					evolved[i][j] = cellValue(board, i, j);
+				}
 			}
 		}
 		return evolved;
 	}
 
 	// Returns the value that cell (i,j) should have in the next generation.
-	// If the cell is alive (equals 1) and has fewer than two live neighbors, it dies (becomes 0).
+	// If the cell is alive (equals 1) and has fewer than two live neighbors, it
+	// dies (becomes 0).
 	// If the cell is alive and has two or three live neighbors, it remains alive.
 	// If the cell is alive and has more than three live neighbors, it dies.
 	// If the cell is dead and and has three live neighbors, it becomes alive.
-	// Otherwise the cell does not change. 
-	// Assumes that i is at least 1 and at most the number of rows in the board - 1. 
-	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
+	// Otherwise the cell does not change.
+	// Assumes that i is at least 1 and at most the number of rows in the board - 1.
+	// Assumes that j is at least 1 and at most the number of columns in the board -
+	// 1.
 	// Uses the count(board,i,j) function to count the number of alive neighbors.
 	public static int cellValue(int[][] board, int i, int j) {
 		int neighbors = count(board, i, j);
@@ -157,18 +163,17 @@ public class GameOfLife {
 
 		return value;
 	}
-	
+
 	// Counts and returns the number of living neighbors of the given cell
 	// (The cell itself is not counted).
-	// Assumes that i is at least 1 and at most the number of rows in the board - 1. 
-	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
+	// Assumes that i is at least 1 and at most the number of rows in the board - 1.
+	// Assumes that j is at least 1 and at most the number of columns in the board -
+	// 1.
 	public static int count(int[][] board, int i, int j) {
 		int neighbors = 0;
 
-		for (int row = i - 1; row <= i + 1; row++)
-		{
-			for (int col = j - 1; col <= j + 1; col++)
-			{
+		for (int row = i - 1; row <= i + 1; row++) {
+			for (int col = j - 1; col <= j + 1; col++) {
 				neighbors += board[row][col];
 			}
 		}
@@ -177,9 +182,9 @@ public class GameOfLife {
 
 		return neighbors;
 	}
-	
+
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
-    public static void print(int[][] arr) {
+	public static void print(int[][] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[i].length; j++) {
 				System.out.printf("%3s", arr[i][j]);
@@ -187,11 +192,15 @@ public class GameOfLife {
 			System.out.println();
 		}
 	}
-		
-    // Displays the board. Living and dead cells are represented by black and white squares, respectively.
-    // We use a fixed-size canvas of 900 pixels by 900 pixels for displaying game boards of different sizes.
-    // In order to handle any given board size, we scale the X and Y dimensions according to the board size.
-    // This results in the following visual effect: The smaller the board, the larger the squares
+
+	// Displays the board. Living and dead cells are represented by black and white
+	// squares, respectively.
+	// We use a fixed-size canvas of 900 pixels by 900 pixels for displaying game
+	// boards of different sizes.
+	// In order to handle any given board size, we scale the X and Y dimensions
+	// according to the board size.
+	// This results in the following visual effect: The smaller the board, the
+	// larger the squares
 	// representing cells.
 	public static void show(int[][] board) {
 		StdDraw.setCanvasSize(900, 900);
@@ -203,13 +212,19 @@ public class GameOfLife {
 		// Enables drawing graphics in memory and showing it on the screen only when
 		// the StdDraw.show function is called.
 		StdDraw.enableDoubleBuffering();
-		
-		// For each cell (i,j), draws a filled square of size 1 by 1 (remember that the canvas was 
-		// already scaled to the dimensions rows by cols, which were read from the data file). 
-		// Uses i and j to calculate the (x,y) location of the square's center, i.e. where it
-		// will be drawn in the overall canvas. If the cell contains 1, sets the square's color
-		// to black; otherwise, sets it to white. In the RGB (Red-Green-Blue) color scheme used by
-		// StdDraw, the RGB codes of black and white are, respetively, (0,0,0) and (255,255,255).
+
+		// For each cell (i,j), draws a filled square of size 1 by 1 (remember that the
+		// canvas was
+		// already scaled to the dimensions rows by cols, which were read from the data
+		// file).
+		// Uses i and j to calculate the (x,y) location of the square's center, i.e.
+		// where it
+		// will be drawn in the overall canvas. If the cell contains 1, sets the
+		// square's color
+		// to black; otherwise, sets it to white. In the RGB (Red-Green-Blue) color
+		// scheme used by
+		// StdDraw, the RGB codes of black and white are, respetively, (0,0,0) and
+		// (255,255,255).
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				int color = 255 * (1 - board[i][j]);
@@ -218,6 +233,6 @@ public class GameOfLife {
 			}
 		}
 		StdDraw.show();
-		StdDraw.pause(100); 
+		StdDraw.pause(100);
 	}
 }
