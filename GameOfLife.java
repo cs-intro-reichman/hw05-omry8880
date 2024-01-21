@@ -64,30 +64,19 @@ public class GameOfLife {
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
-		String currentRow = "";
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[0].length; j++) {
-				if (i == 0 || i == board[0].length - 1 || j == 0 || j == board[1].length - 1 || currentRow == null) {
-					board[i][j] = 0;
-				}
-				else {
-					if (currentRow.length() > j) {
-						switch(currentRow.charAt(j)) {
-							case('.'):
-								board[i][j + 1] = 0;
-								break;
-							
-							case('x'):
-								board[i][j + 1] = 1;
-								break;
-						}
-					}
-					else {
-						board[i][j+1] = 0;
-					}
+
+		String rowData = "";
+
+		for (int boardRows = 0; boardRows < board.length; boardRows++) {
+			rowData = in.readLine();
+			for (int boardCols = 0; boardCols < board[0].length; boardCols++) {
+				if (!rowData.isEmpty() && rowData.length() > boardCols && rowData.charAt(boardCols) == 'x') {
+					board[boardRows][boardCols] = 1; 
+				} else {
+					board[boardRows][boardCols] = 0;
 				}
 			}
-			currentRow = in.readLine();
+
 		}
 		return board;
 	}
