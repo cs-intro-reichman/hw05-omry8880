@@ -80,6 +80,7 @@ public class GameOfLife {
 				} else {
 					if (rowData.length() > j) {
 						switch (rowData.charAt(j)) {
+							// #feedback - checking for '.' is not needed, the board already contains zero since it's the default value of an integer array.
 							case ('.'):
 								board[i][j + 1] = 0;
 								break;
@@ -128,6 +129,7 @@ public class GameOfLife {
 		int neighbors = count(board, i, j);
 		int value = 0;
 
+		// #feedback - please remove code that is not used before submitting.
 		// System.out.println("Neighbours: " + neighbors);
 		// System.out.println("Current value: " + board[i][j]);
 
